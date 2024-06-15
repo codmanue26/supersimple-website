@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Simple Website</title>
+    <style>
+        body {
+            background-image: url('hunter.jpg');
+            background-size: 50%;  /* Adjust the size of the first background image */
+            background-repeat: no-repeat; /* Prevent the first background image from repeating */
+            background-position: center top; /* Position the first background image */
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            position: relative; /* Needed for absolute positioning of children */
+        }
+        .green-text {
+            color: green;
+            position: absolute;
+            cursor: move;
+        }
+        #draggable-text {
+            cursor: move;
+        }
+        #draggable-image {
+            cursor: move;
+        }
+        #non-draggable-background {
+            position: absolute;
+            top: 0;
+            left: 1200px;
+            width: 40%; /* Make sure it covers the entire body */
+            z-index: -1; /* Ensure it's behind other content */
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const draggableText = document.getElementById('draggable-text');
+            const draggableImage = document.getElementById('draggable-image');
+
+            let isDraggingText = false;
+            let isDraggingImage = false;
+            let offsetXText, offsetYText, offsetXImage, offsetYImage;
+
+            draggableText.addEventListener('mousedown', (e) => {
+                isDraggingText = true;
+                offsetXText = e.clientX - parseInt(window.getComputedStyle(draggableText).left);
+                offsetYText = e.clientY - parseInt(window.getComputedStyle(draggableText).top);
+            });
+
+            draggableImage.addEventListener('mousedown', (e) => {
+                isDraggingImage = true;
+                offsetXImage = e.clientX - parseInt(window.getComputedStyle(draggableImage).left);
+                offsetYImage = e.clientY - parseInt(window.getComputedStyle(draggableImage).top);
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isDraggingText) {
+                    draggableText.style.left = `${e.clientX - offsetXText}px`;
+                    draggableText.style.top = `${e.clientY - offsetYText}px`;
+                }
+                if (isDraggingImage) {
+                    draggableImage.style.left = `${e.clientX - offsetXImage}px`;
+                    draggableImage.style.top = `${e.clientY - offsetYImage}px`;
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                isDraggingText = false;
+                isDraggingImage = false;
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1 id="draggable-text" class="green-text">hunter your a faggot</h1>
+    <img id="draggable-image" src="gun.jpg" alt="Draggable Image" width="100">
+    <img id="non-draggable-background" src="anime.jpg" alt="Second Background Image">
+</body>
+</html>
